@@ -1,0 +1,20 @@
+Instructions 
+this file contains all the details for setting up the environment, installing packages,
+any debugging that occurs, and how to run the model.
+
+1) environment
+conda create -n breast_density python=3.6 
+conda activate breast_density
+
+2) installing packages
+pip install -r requirements.txt
+
+3) preprocessing.py
+this script is created to preprocess all dicom images, scaling to 2600x2600 pixels
+then saving as png files for the model to run. images are held in the input folder
+and saved in the images folder.
+
+4) running the model
+python run_model.py 
+this script loops the model through the different patient folders
+to generate the birads categories all at once

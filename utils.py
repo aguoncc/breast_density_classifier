@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import misc
-
+import os
+import pydicom
 
 def histogram_features_generator(image_batch, parameters):
     """
@@ -37,7 +38,6 @@ def histogram_generator(img, bins):
     hist_result = hist[0] / (hist[0].sum())
     return hist_result
 
-
 def load_images(image_path, view):
     """
     Function that loads and preprocess input images
@@ -45,7 +45,8 @@ def load_images(image_path, view):
     :param view: L-CC / R-CC / L-MLO / R-MLO
     :return: Batch x Height x Width x Channels array
     """
-    image = misc.imread(image_path + view + '.png')
+    # image = misc.imread(image_path + view + '.png')
+    image = misc.imread(os.path.join(image_path, view + '.png'))
     image = image.astype(np.float32)
     normalize_single_image(image)
     image = np.expand_dims(image, axis=0)
@@ -53,6 +54,19 @@ def load_images(image_path, view):
 
     return image
 
+# # adding this part to account for the subfolders per patient
+# def load_images(base_path, label=None):
+#     side, view = label.split('-')
+#     file_path = os.path.join(base_path, side, f"{label}.png")  # search in subfolder
+#     if not os.path.exists(file_path):
+#         print(f"Warning: {file_path} does not exist")
+#         return np.array([])
+#     img = cv2.imread(file_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
+#     img -= np.mean(img)
+#     img /= np.std(img)
+#     img = np.expand_dims(img, axis=0)  # batch
+#     img = np.expand_dims(img, axis=3)  # channel
+#     return img
 
 def normalize_single_image(image):
     """

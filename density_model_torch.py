@@ -75,7 +75,7 @@ if __name__ == "__main__":
         if args.model_type == "histogram":
             parameters_["model_path"] = "saved_models/BreastDensity_BaselineHistogramModel/model.p"
         if args.model_type == "cnn":
-            parameters_["model_path"] = "saved_models/BreastDensity_BaselineBreastModel/model.p"
+            parameters_["model_path"] = r"saved_models/BreastDensity_BaselineBreastModel/model.p"
 
     inference(parameters_)
 
