@@ -4,15 +4,38 @@ import pydicom
 import os
 import numpy as np
 
-folder = r"C:\Users\Data Science\Downloads"
+folder = r"C:\Users\Data Science\Documents\MSDS - Breast Density Classifier\breast_density_classifier\dicom images\lumina"
+
+def check_metadata_flags(ds):
+    flags = []
+
+    # Implant flag (best case scenario)
+    implant = ds.get("BreastImplantPresent", None)
+    if implant == "YES":
+        flags.append("BREAST_IMPLANT")
+
+    # Missing compression force (suspicious)
+    if not hasattr(ds, "CompressionForce"):
+        flags.append("NO_COMPRESSION_FORCE")
+
+    # Extremely low or high thickness (heuristic)
+    thickness = ds.get("BodyPartThickness", None)
+    if thickness:
+        try:
+            if float(thickness) < 10 or float(thickness) > 120:
+                flags.append("ABNORMAL_THICKNESS")
+        except:
+            pass
+
+    return flags
 
 required_tags = [
-    # "SOPInstanceUID",
-    # "StudyInstanceUID",
-    # "SeriesInstanceUID",
+    "SOPInstanceUID",
+    "StudyInstanceUID",
+    "SeriesInstanceUID",
     "SOPClassUID",
     "PresentationIntentType",
-    # "Modality",
+    "Modality",
     "ImageLaterality",
     # "Laterality",
     # "ViewPosition",
@@ -20,11 +43,11 @@ required_tags = [
     # "PhotometricInterpretation",
     # "BitsStored",
     # "BitsAllocated",
-    # "PixelSpacing",
+    "ImagerPixelSpacing",
     # "Rows",
     # "Columns",
     # "RescaleSlope",
-    # "RescaleIntercept",
+    "BodyPartThickness",
     "Manufacturer"
 ]
 
