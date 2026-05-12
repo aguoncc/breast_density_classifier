@@ -1,4 +1,4 @@
-#MA571 Capstone Project: Breast Density Classification
+# MA571 Capstone Project: Breast Density Classification
 This repository contains the implementation and comparative analysis of NYU Density Classification and LIBRA methodologies. The project utilizes multiview CNNs and histogram-based methods, and applies threshold optimization to classify breast density against clinical BIRAD assessments.
 
 ## Project Overview
